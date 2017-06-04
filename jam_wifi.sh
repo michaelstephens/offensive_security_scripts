@@ -6,6 +6,7 @@
 USER_INTERFACE=${@:$#}
 frequency=15
 nbpps=1024
+wait=0
 
 while getopts ':b::c::f::x:h' opt; do
   case "$opt" in
@@ -13,6 +14,7 @@ while getopts ':b::c::f::x:h' opt; do
     c) channel=$OPTARG ;;
     h) help=true ;;
     f) frequency=$OPTARG ;;
+    w) wait=$OPTARG ;;
     x) nbpps=$OPTARG ;;
     :) echo "Option -$OPTARG requires an argument" ;;
   esac
@@ -28,6 +30,7 @@ if [ "$help" = true ] || [ -z "$1" ] || [ "$1" = "--help" ]; then
   echo "-f        Frequency of hits between MAC change (default: 20, 0 is infinite)"
   echo "-h        Print help"
   echo "-x        Number of packets per second (default: 1024, max: 1024)"
+  echo "-w        Wait between attempts (default: 0)"
   echo
   echo Requirements:
   echo "- aircrack-ng"
@@ -44,6 +47,12 @@ if [ -z "$channel" ]; then
   echo "ERROR: Channel required"
   exit 1
 fi
+
+echo --------------------------------------------------------------------------
+echo WARNING
+echo --------------------------------------------------------------------------
+echo "This is an infinitely running script, it will not stop until you stop it"
+echo
 
 echo --------------------------------------------------------------------------
 echo Anonymizing Mac
@@ -92,5 +101,5 @@ do
   echo --------------------------------------------------------------------------
   echo Waiting
   echo --------------------------------------------------------------------------
-  sleep 3
+  sleep $wait
 done
