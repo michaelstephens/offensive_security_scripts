@@ -68,7 +68,7 @@ echo --------------------------------------------------------------------------
 sudo airmon-ng check
 echo Killing processes
 sudo airmon-ng check kill > /dev/null
-read INTERFACE <<< $(sudo airmon-ng start wlan0 | grep 'phy0' | awk ' { print $2 }')
+read INTERFACE <<< $(sudo airmon-ng start $USER_INTERFACE | grep 'phy0' | awk ' { print $2 }')
 echo Monitor Mode Active
 echo New Interface: $INTERFACE
 
